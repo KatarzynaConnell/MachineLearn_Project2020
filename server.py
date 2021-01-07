@@ -9,7 +9,7 @@ app = fl.Flask(__name__)
 # Add root route.
 @app.route("/")
 def home():
-  return "Hello World"
+  return app.send_static_file('index.html')
 
 # Add uniform route (json)
 @app.route('/api/uniform')
