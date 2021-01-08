@@ -13,7 +13,7 @@ import pickle
 with open('polynomial_model.pkl', 'rb') as file:  
     Pickled_polyn_model = pickle.load(file)
 
-Pickled_LR_Model
+Pickled_polyn_model
 
 
 # Create a new web app.
@@ -22,24 +22,24 @@ app = Flask(__name__)
 # Add root route for the home page.
 @app.route("/")
 def home():
-
+  return app.send_static_file('index.html')
 # Add polynomial regression model (json)
-@app.route('polynomial_model', method=['POST'])
+@app.route('/polynomial_model', method=['POST'])
 def polynomial_model():
-    wind = request.form['input']
+  wind = request.form['input']
 # for wind speeds that are less than 0.3 and above 24.499 return 0 
-        if wind > 24.5:  
-            power = 0
-        return jsonify({'name' : float(power)})
+        #if wind > 24.5:  
+         #   power = 0
+        #return jsonify({'name' : float(power)})
     
   # pass to model for wind speeds between 0.3 and 24.499	
-        if 0.3 < wind < 24.5:
-            power = polyn_model.predict(polyn_features.fit_transform([[wind]]))
-            power = power.item(0)
-        return jsonify({'name' : float(power)})
+  if 0.3 < wind < 24.5:
+    power = polyn_model.predict(polyn_features.fit_transform([[wind]]))
+    power = power.item(0)
+  return jsonify({'name' : float(power)})
  
-        if wind < 0.3: 
-            print("Missing data!")
+  if wind < 0.3: 
+        print("Missing data!")
 
 if __name__ == '__main__':
     app.run(debug = True)
